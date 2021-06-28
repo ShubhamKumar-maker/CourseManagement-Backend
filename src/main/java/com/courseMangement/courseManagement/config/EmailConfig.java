@@ -12,7 +12,7 @@ public class EmailConfig {
     {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo("sbk7913@gmail.com");
-        message.setFrom("sk7.rocky17@gmail.com");
+        message.setFrom("r06744423@gmail.com");
         message.setSubject("Important email");
         message.setText("FATAL - Application crash. Save your job !!");
         return message;

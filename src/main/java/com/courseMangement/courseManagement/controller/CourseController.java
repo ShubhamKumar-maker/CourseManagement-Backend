@@ -2,6 +2,7 @@ package com.courseMangement.courseManagement.controller;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.courseMangement.courseManagement.entities.CourseEntity;
 import com.courseMangement.courseManagement.models.Course;
+import com.courseMangement.courseManagement.models.MailStrructure;
 import com.courseMangement.courseManagement.service.CourseService;
+import com.courseMangement.courseManagement.util.GroupData;
 
 @RestController
 @RequestMapping("/test")
@@ -63,14 +66,26 @@ public class CourseController {
 	}
 
 	@DeleteMapping("/course-delete/{id}")
-	public ResponseEntity<String> delete(@PathVariable long id) {
+	public void delete(@PathVariable long id) {
 		try {
 			courseservice.deleteCourse(id);
-			return new ResponseEntity<>("Course get Deleted",HttpStatus.OK);
+			//return new ResponseEntity<>("Course get Deleted",HttpStatus.OK);
 		}
 		catch(Exception e){
-			return new ResponseEntity<>("error",HttpStatus.EXPECTATION_FAILED);
+			//return new ResponseEntity<>("error",HttpStatus.EXPECTATION_FAILED);
 		}
+	}
+	@PostMapping("/sendmail")
+	public void sendmailtoParticipants(@RequestBody MailStrructure mailstr)
+	{
+		System.out.println(mailstr);
+		courseservice.sendMail(mailstr.getSubject(), mailstr.getBody());
+	}
+	
+	@GetMapping("/groupbydata/{column}")
+	public Map<String,Long> groupdata(@PathVariable String column )
+	{
+		return GroupData.groupbyfields(courseservice.getCourse(), column);
 	}
 
 }
